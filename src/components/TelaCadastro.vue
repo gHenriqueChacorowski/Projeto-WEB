@@ -3,12 +3,12 @@
     <meu-aside></meu-aside>
     <main>
       <div id="container">
-        <form id="form-login">
+        <form id="form-login" @submit.prevent="enviarFormulario">
           <h2>Cadastro</h2>
-          <input type="text" placeholder="Nome">
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Senha" />
-          <button>Cadastrar</button>
+          <input type="text" placeholder="Nome" v-model="usuario.nome">
+          <input type="email" placeholder="Email" v-model="usuario.email" />
+          <input type="password" placeholder="Senha" v-model="usuario.senha" />
+          <button type="submit">Cadastrar</button>
           <router-link to="/">Já é cadastrado?</router-link>
         </form>
       </div>
@@ -19,6 +19,20 @@
 <script>
 import Aside from './Aside.vue';
 export default {
+    data(){
+      return {
+        usuario: {
+          nome: '',
+          senha: '',
+          email: ''
+        }
+      }
+    },
+    methods: {
+      enviarFormulario(){
+        alert("Fui submetido");
+      }
+    },
     components: {
         'meu-aside' : Aside
     }

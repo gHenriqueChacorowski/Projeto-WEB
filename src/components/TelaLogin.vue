@@ -7,7 +7,7 @@
           <h2>Login</h2>
           <input type="email" placeholder="Email" />
           <input type="password" placeholder="Senha" />
-          <button>Entrar</button>
+          <button type="submit">Entrar</button>
           <router-link to="/cadastro">Não é cadastrado?</router-link>
         </form>
       </div>
