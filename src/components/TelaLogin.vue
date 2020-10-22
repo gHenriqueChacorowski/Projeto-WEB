@@ -1,14 +1,15 @@
 <template>
   <div id="tela">
-    <meu-aside></meu-aside>
+    <Aside />
     <main>
       <div id="container">
-        <form id="form-login">
+        <form id="form-login" @submit.prevent="efetuarLogin">
           <h2>Login</h2>
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Senha" />
+          <input type="email" placeholder="Email" v-model="usuario.email" required />
+          <input type="password" placeholder="Senha" v-model="usuario.senha" required />
+          <p class="alert alert-danger" v-if="mensagemErro">{{ mensagemErro }}</p>
           <button type="submit">Entrar</button>
-          <router-link to="/cadastro">Não é cadastrado?</router-link>
+          <router-link :to="{ name: 'tela-cadastro' }">Não é cadastrado?</router-link>
         </form>
       </div>
     </main>
@@ -16,11 +17,36 @@
 </template>
 
 <script>
-import Aside from './Aside.vue';
+import Aside from "./Aside.vue";
 export default {
-    components: {
-        'meu-aside' : Aside
-    }
+  data() {
+    return {
+      usuario: {
+        email: "",
+        senha: ""
+      },
+      mensagemErro: ""
+    };
+  },
+  components: {
+    Aside
+  },
+  methods: {
+    efetuarLogin() {
+      const usuarios = JSON.parse(localStorage.getItem('usuarios'));
+      const usuario = usuarios.find(u => {
+        if(u.email == this.usuario.email && u.senha == this.usuario.senha){
+          let token = JSON.parse(Math.random() * 1000000);
+          localStorage.setItem('token', JSON.stringify(token));
+          this.$router.push({ name: 'tela-undefined'});       
+        }else {
+          this.usuario.email = "",
+          this.usuario.senha = "",
+          this.mensagemErro = "Email ou senha inválidos";
+        }
+      });
+    },
+  },
 };
 </script>
 
@@ -33,7 +59,7 @@ export default {
   position: relative;
 }
 
-#container #form-login h2{
+#container #form-login h2 {
   font-size: 48px;
   color: #48aec0;
   padding: 2px 0 10px 0;
@@ -41,21 +67,21 @@ export default {
   padding-bottom: 30px;
 }
 
-#container #form-login button{
-  width: 100%!important;
-  cursor: pointer;  
+#container #form-login button {
+  width: 100% !important;
+  cursor: pointer;
   background: #3d9db3;
   padding: 8px 10px;
   color: #fff;
-  font-size: 20px;  
+  font-size: 20px;
   border: 1px solid #fff;
-  margin-top: 5px;   
-  margin-bottom: 15px;  
+  margin-top: 5px;
+  margin-bottom: 15px;
   text-shadow: 0 1px 1px #333;
-  
+
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  
+
   transition: all 0.2s linear;
 }
 
@@ -83,11 +109,6 @@ export default {
   );
 }
 
-#container #form-login input {
-  outline: none;
-  margin: 5px;
-}
-
 #container #form-login input:not([type="checkbox"]) {
   width: 95%;
   margin-top: 4px;
@@ -102,5 +123,20 @@ export default {
 
   -webkit-transition: all 0.2s linear;
   transition: all 0.2s linear;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alert{
+  position: relative;
+  padding: .75rem 1.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
 }
 </style>

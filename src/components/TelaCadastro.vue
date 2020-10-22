@@ -1,15 +1,15 @@
 <template>
   <div id="tela">
-    <meu-aside></meu-aside>
+    <Aside />
     <main>
       <div id="container">
-        <form id="form-login" @submit.prevent="enviarFormulario">
+        <form id="form-login" @submit.prevent="cadastrarUsuario">
           <h2>Cadastro</h2>
-          <input type="text" placeholder="Nome" v-model="usuario.nome">
-          <input type="email" placeholder="Email" v-model="usuario.email" />
-          <input type="password" placeholder="Senha" v-model="usuario.senha" />
+          <input type="text" placeholder="Nome" v-model="usuario.nome" required />
+          <input type="email" placeholder="Email" v-model="usuario.email" required />
+          <input type="password" placeholder="Senha" v-model="usuario.senha" required />
           <button type="submit">Cadastrar</button>
-          <router-link to="/">Já é cadastrado?</router-link>
+          <router-link :to="{ name: 'tela-login' }">Já é cadastrado?</router-link>
         </form>
       </div>
     </main>
@@ -17,25 +17,34 @@
 </template>
 
 <script>
-import Aside from './Aside.vue';
+import Aside from "./Aside.vue";
 export default {
-    data(){
-      return {
-        usuario: {
-          nome: '',
-          senha: '',
-          email: ''
-        }
+  data() {
+    return {
+      usuario: {
+        nome: "",
+        senha: "",
+        email: ""
+      },
+    };
+  },
+  methods: {
+    cadastrarUsuario() {
+      let usuarios = localStorage.getItem('usuarios');
+      if(usuarios){
+        usuarios = JSON.parse(usuarios);
+        usuarios.push(this.usuario);
+      }else {
+        usuarios = [this.usuario];
       }
+
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+      this.$router.push({ name: 'tela-login'});
     },
-    methods: {
-      enviarFormulario(){
-        alert("Fui submetido");
-      }
-    },
-    components: {
-        'meu-aside' : Aside
-    }
+  },
+  components: {
+    Aside
+  },
 };
 </script>
 
@@ -48,7 +57,7 @@ export default {
   position: relative;
 }
 
-#container #form-login h2{
+#container #form-login h2 {
   font-size: 48px;
   color: #48aec0;
   padding: 2px 0 10px 0;
@@ -56,21 +65,21 @@ export default {
   padding-bottom: 30px;
 }
 
-#container #form-login button{
-  width: 100%!important;
-  cursor: pointer;  
+#container #form-login button {
+  width: 100% !important;
+  cursor: pointer;
   background: #3d9db3;
   padding: 8px 10px;
   color: #fff;
-  font-size: 20px;  
+  font-size: 20px;
   border: 1px solid #fff;
-  margin-top: 5px;   
-  margin-bottom: 15px;  
+  margin-top: 5px;
+  margin-bottom: 15px;
   text-shadow: 0 1px 1px #333;
-  
+
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  
+
   transition: all 0.2s linear;
 }
 
@@ -100,11 +109,11 @@ export default {
 
 #container #form-login input {
   outline: none;
-  margin: 5px;
+  margin: 0px;
 }
 
 #container #form-login input:not([type="checkbox"]) {
-  width: 95%;
+  width: 100%;
   margin-top: 4px;
   padding: 10px;
   border: 1px solid #b2b2b2;
