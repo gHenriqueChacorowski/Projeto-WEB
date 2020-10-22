@@ -9,7 +9,7 @@
           <input type="password" placeholder="Senha" v-model="usuario.senha" required />
           <p class="alert alert-danger" v-if="mensagemErro">{{ mensagemErro }}</p>
           <button type="submit">Entrar</button>
-          <router-link :to="{ name: 'tela-cadastro' }">Não é cadastrado?</router-link>
+          <router-link :to="{ name: 'tela-cadastro-usuario' }">Não é cadastrado?</router-link>
         </form>
       </div>
     </main>
@@ -110,7 +110,7 @@ export default {
 }
 
 #container #form-login input:not([type="checkbox"]) {
-  width: 95%;
+  width: 100%;
   margin-top: 4px;
   padding: 10px;
   border: 1px solid #b2b2b2;
@@ -118,7 +118,7 @@ export default {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset;
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(12, 8, 8, 0.6) inset;
   box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset;
 
   -webkit-transition: all 0.2s linear;
@@ -135,7 +135,7 @@ export default {
   position: relative;
   padding: .75rem 1.25rem;
   margin-top: 0.5rem;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.2rem;
   border: 1px solid transparent;
   border-radius: .25rem;
 }
