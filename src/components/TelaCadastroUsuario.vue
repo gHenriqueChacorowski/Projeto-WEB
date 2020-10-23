@@ -4,7 +4,7 @@
     <main>
       <div id="container">
         <form id="form-login" @submit.prevent="cadastrarUsuario">
-          <h2>Cadastro</h2>
+          <h2>Cadastro Usuário</h2>
           <input type="text" placeholder="Nome" v-model="usuario.nome" required />
           <input type="email" placeholder="Email" v-model="usuario.email" required />
           <input type="password" placeholder="Senha" v-model="usuario.senha" required />

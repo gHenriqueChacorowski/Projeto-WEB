@@ -10,6 +10,7 @@
           <p class="alert alert-danger" v-if="mensagemErro">{{ mensagemErro }}</p>
           <button type="submit">Entrar</button>
           <router-link :to="{ name: 'tela-cadastro-usuario' }">Não é cadastrado?</router-link>
+          <router-link :to="{ name: 'tela-cadastro-cliente' }">Cliente</router-link>
         </form>
       </div>
     </main>
@@ -34,17 +35,21 @@ export default {
   methods: {
     efetuarLogin() {
       const usuarios = JSON.parse(localStorage.getItem('usuarios'));
+      console.log(usuarios);
       const usuario = usuarios.find(u => {
         if(u.email == this.usuario.email && u.senha == this.usuario.senha){
           let token = JSON.parse(Math.random() * 1000000);
           localStorage.setItem('token', JSON.stringify(token));
-          this.$router.push({ name: 'tela-undefined'});       
-        }else {
-          this.usuario.email = "",
-          this.usuario.senha = "",
-          this.mensagemErro = "Email ou senha inválidos";
-        }
+          this.$router.push({ name: 'tela-undefined' });
+          this.usuario.email = "";
+          this.usuario.senha = "";     
+        }   
       });
+      if(this.usuario.email && this.usuario.senha){
+        this.usuario.email = "";
+        this.usuario.senha = ""; 
+        this.mensagemErro = "Email ou senha inválidos";
+      }
     },
   },
 };
@@ -123,12 +128,6 @@ export default {
 
   -webkit-transition: all 0.2s linear;
   transition: all 0.2s linear;
-}
-
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
 }
 
 .alert{

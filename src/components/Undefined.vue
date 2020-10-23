@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Olá deu bom!</h1>
-    <button type="submit" @click.prevent="efetuarLogout">Sair</button>
+    <button class="btn btn-primary" type="submit" @click.prevent="efetuarLogout">Sair</button>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div id="tela">
-      <aside>
+    <aside>
       <header>
         <h1>Projeto: Mapeamento de Clientes</h1>
 
@@ -23,6 +23,9 @@ export default {
 </script>
 
 <style>
+body aside {
+  color: #fff;
+}
 #tela {
   width: 30vw;
   height: 100vh;
