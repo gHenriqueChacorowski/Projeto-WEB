@@ -39,7 +39,10 @@ export default {
       const usuario = usuarios.find(u => {
         if(u.email == this.usuario.email && u.senha == this.usuario.senha){
           let token = JSON.parse(Math.random() * 1000000);
-          localStorage.setItem('token', JSON.stringify(token));
+          this.$store.commit('DEFINIR_USUARIO_LOGADO', {
+            token: JSON.stringify(token),
+            user: JSON.stringify(u)
+          });
           this.$router.push({ name: 'tela-undefined' });
           this.usuario.email = "";
           this.usuario.senha = "";     
