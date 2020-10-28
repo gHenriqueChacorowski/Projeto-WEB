@@ -10,7 +10,6 @@
           <p class="alert alert-danger" v-if="mensagemErro">{{ mensagemErro }}</p>
           <button type="submit">Entrar</button>
           <router-link :to="{ name: 'tela-cadastro-usuario' }">Não é cadastrado?</router-link>
-          <router-link :to="{ name: 'tela-cadastro-cliente' }">Cliente</router-link>
         </form>
       </div>
     </main>
@@ -35,17 +34,15 @@ export default {
   methods: {
     efetuarLogin() {
       const usuarios = JSON.parse(localStorage.getItem('usuarios'));
-      console.log(usuarios);
       const usuario = usuarios.find(u => {
         if(u.email == this.usuario.email && u.senha == this.usuario.senha){
           let token = JSON.parse(Math.random() * 1000000);
-          this.$store.commit('DEFINIR_USUARIO_LOGADO', {
-            token: JSON.stringify(token),
-            user: JSON.stringify(u)
-          });
-          this.$router.push({ name: 'tela-undefined' });
-          this.usuario.email = "";
-          this.usuario.senha = "";     
+          this.$store.dispatch('efetuarLogin', token, u)
+            .then(() => {
+              this.$router.push({ name: 'navbar' });
+              this.usuario.email = "";
+              this.usuario.senha = "";  
+            });
         }   
       });
       if(this.usuario.email && this.usuario.senha){

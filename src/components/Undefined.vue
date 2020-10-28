@@ -10,7 +10,7 @@ export default {
   methods: {
     efetuarLogout() {
       this.$store.commit('DESLOGAR_USUARIO');
-      this.$router.push({ name: 'tela-login' });
+      this.$router.push({ name: 'navbar' });
     }
   }
 }

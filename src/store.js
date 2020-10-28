@@ -17,5 +17,16 @@ export default new Vuex.Store({
             state.token = null,
             state.user = {}
         }
+    },
+    actions: {
+        efetuarLogin({ commit },token, user) {
+            return commit('DEFINIR_USUARIO_LOGADO', {
+                token: token,
+                user: user
+            });
+        }
+    },
+    getters: {
+        usuarioLogado: state => Boolean(state.token)
     }
 });
