@@ -25,7 +25,7 @@
           </div>
           <div class="form-group col-md-4">
             <label class="control-label" for="cnpj">CNPJ</label>
-            <input type="text" class="form-control" id="cnpj" name="cnpj" required />
+            <input type="mask" class="form-control" id="cnpj" name="cnpj" v-mask="maskcnpj" v-model="cnpj" required />
           </div>
         </div>
         <div class="row">
@@ -45,7 +45,7 @@
         <div class="row">
           <div class="form-group col-md-3">
             <label class="control-label" for="cep">CEP</label>
-            <input type="text" class="form-control" id="cep" name="cep" required />
+            <input type="text" class="form-control" id="cep" name="cep" v-mask="maskcep" v-model="cep" required />
           </div>
           <div class="form-group col-md-7">
             <label class="control-label" for="cidade">Cidade</label>
@@ -60,7 +60,7 @@
         <hr>
 
         <button class="btn btn-primary" type="submit">Cadastrar</button>
-        <router-link :to="{ name: 'tela-login' }">Voltar</router-link>
+        <router-link :to="{ name: 'navbar' }">Voltar</router-link>
       
       </fieldset>  
     </main>
@@ -72,6 +72,14 @@ import Aside from "./Aside.vue";
 export default {
   components: {
     Aside,
+  },
+  data() {
+    return {
+      maskcnpj: "##.###.###/####-##",
+      cnpj: "",
+      maskcep: "#####-###",
+      cep: "",
+    };
   },
 };
 </script>
@@ -93,6 +101,10 @@ export default {
   padding: 2px 0 10px 0;
   text-align: center;
   padding-bottom: 30px;
+}
+
+#cep, #numero, #cnpj{
+  text-align: right;
 }
 
 .container-cadastro-cliente h2:after {

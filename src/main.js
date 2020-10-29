@@ -3,6 +3,9 @@ import App from './App.vue'
 import VueRouter from 'vue-router';
 import { routes } from './routes';
 import store from './store';
+import { VueMaskDirective } from "v-mask";
+
+Vue.directive("mask", VueMaskDirective);
 
 Vue.use(VueRouter);
 
