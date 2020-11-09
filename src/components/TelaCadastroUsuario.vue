@@ -5,9 +5,12 @@
       <div id="container">
         <form id="form-login" @submit.prevent="cadastrarUsuario">
           <h2>Cadastro Usuário</h2>
-          <input type="text" placeholder="Nome" v-model="usuario.nome" required />
-          <input type="email" placeholder="Email" v-model="usuario.email" required />
-          <input type="password" placeholder="Senha" v-model="usuario.senha" required />
+          <input name="nome" v-validate data-vv-rules="required|min:3|max:40" type="text" placeholder="Nome" v-model="usuario.nome" required />
+          <span class="text-danger" v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
+          <input name="email" v-validate data-vv-rules="required|email" type="email" placeholder="Email" v-model="usuario.email" required />
+          <span class="text-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
+          <input name="senha" v-validate data-vv-rules="required|min:4|max:20" type="password" placeholder="Senha" v-model="usuario.senha" required />
+          <span class="text-danger" v-show="errors.has('senha')">{{ errors.first('senha') }}</span>
           <button type="submit">Cadastrar</button>
           <router-link :to="{ name: 'tela-login' }">Já é cadastrado?</router-link>
         </form>
@@ -30,16 +33,23 @@ export default {
   },
   methods: {
     cadastrarUsuario() {
-      let usuarios = localStorage.getItem('usuarios');
-      if(usuarios){
-        usuarios = JSON.parse(usuarios);
-        usuarios.push(this.usuario);
-      }else {
-        usuarios = [this.usuario];
-      }
+      this.$validator
+        .validateAll()
+        .then(success => {
+          if(success){
+            let usuarios = localStorage.getItem('usuarios');
+            if(usuarios){
+              usuarios = JSON.parse(usuarios);
+              usuarios.push(this.usuario);
+            }else {
+              usuarios = [this.usuario];
+            }
 
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
-      this.$router.push({ name: 'tela-login'});
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            this.$router.push({ name: 'tela-login'});
+          }
+        });
+      
     },
   },
   components: {
