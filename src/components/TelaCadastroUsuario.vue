@@ -50,6 +50,7 @@ export default {
 
 <style>
 #container {
+  display: flex;
   padding-left: 50px;
   width: 500px;
   min-height: 560px;

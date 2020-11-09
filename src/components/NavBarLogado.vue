@@ -1,10 +1,10 @@
 <template>
   <ul class="navbar-nav mr-auto">
     <li class="nav-item">
-      <router-link class="nav-link" to="/cadastro-cliente">Clientes</router-link>
+      <router-link class="nav-link" to="/cadastro-cliente">Cadastrar Cliente</router-link>
     </li>
     <li class="nav-item">
-      <router-link to="/undefined" class="nav-link">Mapeamento de Cliente</router-link>
+      <router-link to="/map" class="nav-link">Mapeamento de Clientes</router-link>
     </li>
     <li class="nav-item">
       <a href="#" class="nav-link" @click.prevent="efetuarLogout">Logout</a>
