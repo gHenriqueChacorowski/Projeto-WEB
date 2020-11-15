@@ -38,7 +38,10 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { mapGetters } from 'vuex';
+=======
+>>>>>>> entrega2
 export default {
   data() {
     return {
@@ -46,7 +49,10 @@ export default {
       markers: [],
       infoWindowPosition: null,
       windowOpen: false,
+<<<<<<< HEAD
       infoContent: "",
+=======
+>>>>>>> entrega2
       infoOptions: {
         pixelOffset:{
           width: 0,
@@ -75,7 +81,10 @@ export default {
               const telefone = element.telefone
 
               this.markers.push( { position: marker, nome, tipo, endereco, telefone });
+<<<<<<< HEAD
               this.filtro = ""
+=======
+>>>>>>> entrega2
             }
           break;
           case 'Nome':
@@ -90,7 +99,10 @@ export default {
               const telefone = element.telefone
 
               this.markers.push( { position: marker, nome, tipo, endereco, telefone });
+<<<<<<< HEAD
               this.filtro = ""
+=======
+>>>>>>> entrega2
             }
           break;
         }         
@@ -120,6 +132,7 @@ export default {
           </div>
         </div>`
       );
+<<<<<<< HEAD
     },
     computed: {
       ...mapGetters(['usuarioLogado'])
@@ -128,10 +141,18 @@ export default {
       console.log(usuarioLogado);
       console.log("Ola");
     }
+=======
+    }, 
+>>>>>>> entrega2
   }
 }
 
 </script>
 
 <style>
+<<<<<<< HEAD
+=======
+.infowindow {
+}
+>>>>>>> entrega2
 </style>

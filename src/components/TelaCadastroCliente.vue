@@ -8,60 +8,43 @@
             <h2>Cadastro Cliente</h2>
           </div>
         </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label class="control-label" for="tipoCliente">Tipo Cliente</label>
-            <select class="form-control chosen-select" id="tipoCliente" name="tipoCliente">
-              <option value="">Selecione</option>
-              <option value="Bar">Bar</option>
-              <option value="Sorveteria">Sorveteria</option>
-            </select>
+        <form  @submit.prevent="cadastrarCliente">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label" for="latitude">Latitude</label>
+              <input type="text" class="form-control" id="latitude" name="latitude" v-model="cliente.latitude" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label" for="longitude">Longitude</label>
+              <input type="text" class="form-control" id="longitude" name="longitude" v-model="cliente.longitude" required />
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-8">
-            <label class="control-label" for="razaoSocial">Razão Social</label>
-            <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" required />
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label" for="nome">Nome</label>
+              <input type="text" class="form-control" name="nome" id="nome" v-model="cliente.nome" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label" for="tipo">Tipo Cliente</label>
+              <input type="text" class="form-control" id="tipo" name="tipo" v-model="cliente.tipo" required />
+            </div>
           </div>
-          <div class="form-group col-md-4">
-            <label class="control-label" for="cnpj">CNPJ</label>
-            <input type="mask" class="form-control" id="cnpj" name="cnpj" v-mask="maskcnpj" v-model="cnpj" required />
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label" for="telefone">Telefone</label>
+              <input type="text" class="form-control" id="telefone" name="telefone" v-model="cliente.telefone" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label" for="endereco">Endereço</label>
+              <input type="text" class="form-control" name="endereco" id="endereco" v-model="cliente.endereco" required />
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-7">
-            <label class="control-label" for="logradouro">Logradouro</label>
-            <input type="text" class="form-control" id="logradouro" name="logradouro" required />
-          </div>
-          <div class="form-group col-md-2">
-            <label class="control-label" for="numero">Número</label>
-            <input type="text" class="form-control" id="numero" name="numero" required />
-          </div>
-          <div class="form-group col-md-3">
-            <label class="control-label" for="bairro">Bairro</label>
-            <input type="text" class="form-control" name="bairro" id="bairro" required />
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-3">
-            <label class="control-label" for="cep">CEP</label>
-            <input type="text" class="form-control" id="cep" name="cep" v-mask="maskcep" v-model="cep" required />
-          </div>
-          <div class="form-group col-md-7">
-            <label class="control-label" for="cidade">Cidade</label>
-            <input type="text" class="form-control" id="cidade" name="cidade" required />
-          </div>
-          <div class="form-group col-md-2">
-            <label class="control-label" for="estado">Estado</label>
-            <input type="text" class="form-control" id="estado" name="estado" required placeholder="ES" />
-          </div>
-        </div>
+            
+          <hr>
 
-        <hr>
-
-        <button class="btn btn-primary" type="submit">Cadastrar</button>
-        <router-link :to="{ name: 'navbar' }">Voltar</router-link>
-      
+          <button class="btn btn-primary" type="submit">Cadastrar</button>      
+          <router-link :to="{ name: 'navbar' }">Voltar</router-link>     
+        </form>    
       </fieldset>  
     </main>
   </div>
@@ -75,16 +58,34 @@ export default {
   },
   data() {
     return {
-      maskcnpj: "##.###.###/####-##",
-      cnpj: "",
-      maskcep: "#####-###",
-      cep: "",
+      cliente: {
+        latitude: "",
+        longitude: "",
+        nome: "",
+        tipo: "",
+        endereco: "",
+        telefone: ""
+      }
     };
   },
+  methods: {
+    cadastrarCliente() {
+      let clientes = localStorage.getItem('clientes');
+      if(clientes){
+        clientes = JSON.parse(clientes);
+        clientes.push(this.cliente);
+      }else {
+        clientes = [this.cliente];
+      }
+
+      localStorage.setItem('clientes', JSON.stringify(clientes));
+      this.$router.push({ name: 'navbar' });
+    }
+  }
 };
 </script>
 
-<style scoped>
+<style>
 .container-cadastro-cliente {
   position: relative;
   display: flex;
