@@ -19,6 +19,26 @@
               <input type="text" class="form-control" id="longitude" name="longitude" v-model="cliente.longitude" required />
             </div>
           </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label" for="nome">Nome</label>
+              <input type="text" class="form-control" name="nome" id="nome" v-model="cliente.nome" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label" for="tipo">Tipo Cliente</label>
+              <input type="text" class="form-control" id="tipo" name="tipo" v-model="cliente.tipo" required />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label" for="telefone">Telefone</label>
+              <input type="text" class="form-control" id="telefone" name="telefone" v-model="cliente.telefone" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label" for="endereco">Endereço</label>
+              <input type="text" class="form-control" name="endereco" id="endereco" v-model="cliente.endereco" required />
+            </div>
+          </div>
             
           <hr>
 
@@ -38,13 +58,13 @@ export default {
   },
   data() {
     return {
-      maskcnpj: "##.###.###/####-##",
-      cnpj: "",
-      maskcep: "#####-###",
-      cep: "",
       cliente: {
         latitude: "",
-        longitude: ""
+        longitude: "",
+        nome: "",
+        tipo: "",
+        endereco: "",
+        telefone: ""
       }
     };
   },
