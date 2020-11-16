@@ -38,10 +38,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import { mapGetters } from 'vuex';
-=======
->>>>>>> entrega2
 export default {
   data() {
     return {
@@ -49,10 +45,7 @@ export default {
       markers: [],
       infoWindowPosition: null,
       windowOpen: false,
-<<<<<<< HEAD
       infoContent: "",
-=======
->>>>>>> entrega2
       infoOptions: {
         pixelOffset:{
           width: 0,
@@ -67,44 +60,27 @@ export default {
     filtrar(){
       let clientes = JSON.parse(localStorage.getItem('clientes'));
       this.markers = [];
+      let tipo = "";
       clientes.forEach(element => {
         switch(this.tipoFiltro){
           case 'Tipo Cliente':
-            if(this.filtro == element.tipo){
-              const marker = {
-                lat: JSON.parse(element.latitude),
-                lng: JSON.parse(element.longitude)
-              }
-              const nome = element.nome
-              const tipo = element.tipo
-              const endereco = element.endereco
-              const telefone = element.telefone
-
-              this.markers.push( { position: marker, nome, tipo, endereco, telefone });
-<<<<<<< HEAD
-              this.filtro = ""
-=======
->>>>>>> entrega2
-            }
+            tipo = element.tipo;
           break;
           case 'Nome':
-            if(this.filtro == element.nome){
-              const marker = {
-                lat: JSON.parse(element.latitude),
-                lng: JSON.parse(element.longitude)
-              }
-              const nome = element.nome
-              const tipo = element.tipo
-              const endereco = element.endereco
-              const telefone = element.telefone
-
-              this.markers.push( { position: marker, nome, tipo, endereco, telefone });
-<<<<<<< HEAD
-              this.filtro = ""
-=======
->>>>>>> entrega2
-            }
+            tipo = element.nome;
           break;
+        }
+        if(this.filtro == tipo){
+          const marker = {
+            lat: JSON.parse(element.latitude),
+            lng: JSON.parse(element.longitude)
+          }
+          const nome = element.nome
+          const tipo = element.tipo
+          const endereco = element.endereco
+          const telefone = element.telefone
+
+          this.markers.push( { position: marker, nome, tipo, endereco, telefone });
         }         
       });
     },
@@ -115,7 +91,7 @@ export default {
     },
     getInfoWindowContent(marker) {
       return (
-        `<div class="infowindow">
+        `<div>
           <div>
             <div class="m-2"><span style="font-weight: bold;">Nome: </span>
               ${marker.nome}
@@ -132,27 +108,11 @@ export default {
           </div>
         </div>`
       );
-<<<<<<< HEAD
-    },
-    computed: {
-      ...mapGetters(['usuarioLogado'])
-    },
-    created(){
-      console.log(usuarioLogado);
-      console.log("Ola");
     }
-=======
-    }, 
->>>>>>> entrega2
   }
 }
 
 </script>
 
 <style>
-<<<<<<< HEAD
-=======
-.infowindow {
-}
->>>>>>> entrega2
 </style>
