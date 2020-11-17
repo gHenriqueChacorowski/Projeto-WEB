@@ -9,41 +9,65 @@
           </div>
         </div>
         <form  @submit.prevent="cadastrarCliente">
+          <div class="campos">
+          <div class="row">
+            <div class="form-group col-md-5">
+              <label class="control-label" for="tipo">Tipo Cliente</label>
+              <select class="form-control" name="tipo" id="tipo" v-model="cliente.tipo">
+                  <option value="Bar">Bar</option>
+                  <option value="Mercearia">Mercearia</option>
+                  <option value="Padaria">Sorveteria</option>
+                  <option value="Supermercado">Supermercado</option>
+                  <option value="Hamburgueria">Hamburgueria</option>
+                  <option value="Padaria">Padaria</option>
+                  <option value="Conveniencia">Loja de Conveniência</option>              
+              </select>              
+            </div>
+          </div>        
+          <div class="row">
+            <div class="form-group col-md-11">
+              <label class="control-label" for="nome">Nome</label>
+              <input type="text" class="form-control" name="nome" id="nome" v-model="cliente.nome" required />
+            </div>            
+          </div>
+          <div class="row">             
+            <div class="form-group col-md-8">
+              <label class="control-label" for="endereco">Endereço</label>
+              <input type="text" class="form-control" name="endereco" id="endereco" v-model="cliente.endereco" required />
+            </div> 
+            <div class="form-group col-md-3">
+              <label class="control-label" for="numero">Número</label>
+              <input type="text" class="form-control" name="numero" id="numero" v-model="cliente.numero" required />
+            </div>                  
+          </div>
           <div class="row">
             <div class="form-group col-md-6">
+              <label class="control-label" for="bairro">Bairro</label>
+              <input type="text" class="form-control" name="bairro" id="bairro" v-model="cliente.bairro" required />
+            </div>
+            <div class="form-group col-md-5">
+              <label class="control-label" for="Cidade">Cidade</label>
+              <input type="text" class="form-control" id="cidade" name="cidade" v-model="cliente.cidade" required />
+            </div>            
+          </div>
+          <div class="row">
+            <div class="form-group col-md-5">
+              <label class="control-label" for="telefone">telefone</label>
+              <input type="text" class="form-control" id="telefone" name="telefone" v-mask="masktel" v-model="cliente.telefone" required />
+            </div>
+            <div class="form-group col-md-3">
               <label class="control-label" for="latitude">Latitude</label>
               <input type="text" class="form-control" id="latitude" name="latitude" v-model="cliente.latitude" required />
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
               <label class="control-label" for="longitude">Longitude</label>
               <input type="text" class="form-control" id="longitude" name="longitude" v-model="cliente.longitude" required />
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label class="control-label" for="nome">Nome</label>
-              <input type="text" class="form-control" name="nome" id="nome" v-model="cliente.nome" required />
-            </div>
-            <div class="form-group col-md-6">
-              <label class="control-label" for="tipo">Tipo Cliente</label>
-              <input type="text" class="form-control" id="tipo" name="tipo" v-model="cliente.tipo" required />
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label class="control-label" for="telefone">Telefone</label>
-              <input type="text" class="form-control" id="telefone" name="telefone" v-model="cliente.telefone" required />
-            </div>
-            <div class="form-group col-md-6">
-              <label class="control-label" for="endereco">Endereço</label>
-              <input type="text" class="form-control" name="endereco" id="endereco" v-model="cliente.endereco" required />
-            </div>
-          </div>
-            
+            </div>          
+          </div>            
           <hr>
-
           <button class="btn btn-primary" type="submit">Cadastrar</button>      
-          <router-link :to="{ name: 'navbar' }">Voltar</router-link>     
+          <router-link :to="{ name: 'navbar' }">Voltar</router-link> 
+          </div>      
         </form>    
       </fieldset>  
     </main>
@@ -56,15 +80,19 @@ export default {
   components: {
     Aside,
   },
+  
   data() {
     return {
-      cliente: {
-        latitude: "",
-        longitude: "",
-        nome: "",
+        masktel:"(##) ####-####",
+        cliente: {
         tipo: "",
+        nome: "",
         endereco: "",
-        telefone: ""
+        bairro:"",
+        cidade: "",
+        telefone: "",
+        latitude: "",
+        longitude: ""         
       }
     };
   },
@@ -86,14 +114,21 @@ export default {
 </script>
 
 <style>
+.campos{
+margin-left: 10%;
+}
+
 .container-cadastro-cliente {
   position: relative;
   display: flex;
+  align-items: center;
+  
 }
 
 .container-cadastro-cliente main{
   margin: 100px 100px 20px 50px;
   padding: 0px;
+  width: 80%;
 }
 
 .container-cadastro-cliente main h2 {
@@ -104,7 +139,7 @@ export default {
   padding-bottom: 30px;
 }
 
-#cep, #numero, #cnpj{
+#latitude, #longitude, #numero, #telefone{
   text-align: right;
 }
 

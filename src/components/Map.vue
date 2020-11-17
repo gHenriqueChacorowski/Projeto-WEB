@@ -78,9 +78,12 @@ export default {
           const nome = element.nome
           const tipo = element.tipo
           const endereco = element.endereco
+          const numero = element.numero
+          const bairro = element.Bairro
+          const cidade = element.cidade
           const telefone = element.telefone
 
-          this.markers.push( { position: marker, nome, tipo, endereco, telefone });
+          this.markers.push( { position: marker, nome, tipo, endereco, numero, bairro, cidade, telefone });
         }         
       });
     },
