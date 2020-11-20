@@ -8,15 +8,18 @@
             <h2>Cadastro Cliente</h2>
           </div>
         </div>
-        <form  @submit.prevent="cadastrarCliente">
+        <form>
           <div class="row">
-            <div class="form-group col-md-6">
-              <label class="control-label" for="latitude">Latitude</label>
-              <input type="text" class="form-control" id="latitude" name="latitude" v-model="cliente.latitude" required />
-            </div>
-            <div class="form-group col-md-6">
-              <label class="control-label" for="longitude">Longitude</label>
-              <input type="text" class="form-control" id="longitude" name="longitude" v-model="cliente.longitude" required />
+            <div class="form-group col-md-12">
+              <gmap-map :center="center" :zoom="16" style="width: 100%; height: 250px">
+                <gmap-marker
+                  :key="index"
+                  v-for="(m, index) in markers"
+                  :position="m.position"
+                  :clickable="true"
+                  @click="toggleInfoWindow(m)"
+                ></gmap-marker>
+              </gmap-map>
             </div>
           </div>
           <div class="row">
@@ -24,25 +27,32 @@
               <label class="control-label" for="nome">Nome</label>
               <input type="text" class="form-control" name="nome" id="nome" v-model="cliente.nome" required />
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-5">
               <label class="control-label" for="tipo">Tipo Cliente</label>
               <input type="text" class="form-control" id="tipo" name="tipo" v-model="cliente.tipo" required />
             </div>
+            <div class="form-group col-md-1">
+              <input type="text" class="form-control invisible" name="position" id="position" v-model="cliente.position" required />
+            </div>
           </div>
           <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
               <label class="control-label" for="telefone">Telefone</label>
               <input type="text" class="form-control" id="telefone" name="telefone" v-model="cliente.telefone" required />
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
               <label class="control-label" for="endereco">Endereço</label>
               <input type="text" class="form-control" name="endereco" id="endereco" v-model="cliente.endereco" required />
             </div>
+            <div class="form-group col-md-4">
+              <button class="btn btn-primary meio" type="submit" @click="mostrarNoMapa">Mostrar no mapa</button>
+            </div>
           </div>
-            
+
+
           <hr>
 
-          <button class="btn btn-primary" type="submit">Cadastrar</button>      
+          <button class="btn btn-primary" type="submit" @click.prevent="cadastrarCliente">Cadastrar</button>      
           <router-link :to="{ name: 'navbar' }">Voltar</router-link>     
         </form>    
       </fieldset>  
@@ -58,9 +68,10 @@ export default {
   },
   data() {
     return {
+      center: { lat: -23.9145863, lng: -52.3466818 },
+      markers: [],
       cliente: {
-        latitude: "",
-        longitude: "",
+        position: "",
         nome: "",
         tipo: "",
         endereco: "",
@@ -80,6 +91,19 @@ export default {
 
       localStorage.setItem('clientes', JSON.stringify(clientes));
       this.$router.push({ name: 'navbar' });
+    },
+    mostrarNoMapa() {
+      this.markers = [];
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { 'address': this.cliente.endereco }, (results, status) => {
+      if (status === 'OK') {
+        this.center = results[0].geometry.location;
+        this.cliente.position = results[0].geometry.location;
+        this.markers.push( { position: results[0].geometry.location })
+      }else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
     }
   }
 };
@@ -146,5 +170,9 @@ export default {
 
   -webkit-transition: all 0.2s linear;
   transition: all 0.2s linear;
+}
+
+.meio{
+  margin-top: 35px;
 }
 </style>

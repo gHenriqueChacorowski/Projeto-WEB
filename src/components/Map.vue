@@ -7,6 +7,7 @@
           <option disabled value="">Escolha um item</option>
           <option>Nome</option>
           <option>Tipo Cliente</option>
+          <option>Endereco</option>
         </select>
         <input type="text" name="filtro" id="filtro" v-model="filtro" required />
         <button class="btn btn-primary" type="submit">
@@ -56,6 +57,18 @@ export default {
       filtro: "",
     };
   },
+  created(){
+    let clientes = JSON.parse(localStorage.getItem('clientes'));
+    clientes.forEach(element => {
+      const marker = element.position
+      const nome = element.nome
+      const tipo = element.tipo
+      const endereco = element.endereco
+      const telefone = element.telefone
+
+      this.markers.push( { position: marker, nome, tipo, endereco, telefone });      
+    })
+  },
   methods: {
     filtrar(){
       let clientes = JSON.parse(localStorage.getItem('clientes'));
@@ -69,17 +82,17 @@ export default {
           case 'Nome':
             tipo = element.nome;
           break;
+          case 'Endereco':
+            tipo = element.endereco
+          break;
         }
         if(this.filtro == tipo){
-          const marker = {
-            lat: JSON.parse(element.latitude),
-            lng: JSON.parse(element.longitude)
-          }
+          const marker = element.position
           const nome = element.nome
           const tipo = element.tipo
           const endereco = element.endereco
           const telefone = element.telefone
-
+          this.center = marker;
           this.markers.push( { position: marker, nome, tipo, endereco, telefone });
         }         
       });
@@ -92,20 +105,13 @@ export default {
     getInfoWindowContent(marker) {
       return (
         `<div>
-          <div>
-            <div class="m-2"><span style="font-weight: bold;">Nome: </span>
-              ${marker.nome}
-            </div>
-            <div class="m-2"><span style="font-weight: bold;">Tipo: </span>
-              ${marker.tipo}
-            </div>
-            <div class="m-2"><span style="font-weight: bold;">Endereco: </span>
-              ${marker.endereco}
-            </div>
-            <div class="m-2" v-if="marker.telefone"><span style="font-weight: bold;">Telefone: </span>
-              ${marker.telefone} 
-            </div>     
-          </div>
+          <p class="markermapa">
+            <span class="bold">${marker.nome}</span> <br>
+            ${marker.endereco} <br>
+            Peabiru - PR <br>
+            87250-000 <br>
+            Brasil
+          </p>
         </div>`
       );
     }
@@ -115,4 +121,13 @@ export default {
 </script>
 
 <style>
+.markermapa{
+  width: 180px;
+  height: 90px;
+  font-size: 14px;
+}
+
+.bold{
+  font-weight: bold;
+}
 </style>
