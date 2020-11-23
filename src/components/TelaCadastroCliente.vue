@@ -11,7 +11,7 @@
         <form>
           <div class="row">
             <div class="form-group col-md-12">
-              <gmap-map :center="center" :zoom="16" style="width: 100%; height: 250px">
+              <gmap-map :center="center" :zoom="16" style="width: 100%; height: 250px" @click="addMarker">
                 <gmap-marker
                   :key="index"
                   v-for="(m, index) in markers"
@@ -48,11 +48,20 @@
               <button class="btn btn-primary meio" type="submit" @click="mostrarNoMapa">Mostrar no mapa</button>
             </div>
           </div>
-
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label" for="cidade">Cidade</label>
+              <input type="text" class="form-control" name="cidade" id="cidade" v-model="cliente.cidade" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label" for="bairro">Bairro</label>
+              <input type="text" class="form-control" name="bairro" id="bairro" v-model="cliente.bairro" required>
+            </div>
+          </div>
 
           <hr>
 
-          <button class="btn btn-primary" type="submit" @click.prevent="cadastrarCliente">Cadastrar</button>      
+          <button v-if="this.cliente.position" class="btn btn-primary" type="submit" @click.prevent="cadastrarCliente">Cadastrar</button>      
           <router-link :to="{ name: 'navbar' }">Voltar</router-link>     
         </form>    
       </fieldset>  
@@ -75,7 +84,9 @@ export default {
         nome: "",
         tipo: "",
         endereco: "",
-        telefone: ""
+        telefone: "",
+        cidade: "",
+        bairro: ""
       }
     };
   },
@@ -101,7 +112,7 @@ export default {
         this.cliente.position = results[0].geometry.location;
         this.markers.push( { position: results[0].geometry.location })
       }else {
-        alert('Geocode was not successful for the following reason: ' + status);
+        alert('Geocode não achou nenhum resultado');
       }
     });
     }
@@ -116,7 +127,7 @@ export default {
 }
 
 .container-cadastro-cliente main{
-  margin: 100px 100px 20px 50px;
+  margin: 20px 100px 20px 50px;
   padding: 0px;
 }
 
