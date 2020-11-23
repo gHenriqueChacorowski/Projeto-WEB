@@ -23,7 +23,7 @@ export default {
 
 <style>
 .navbar {
-  background: #27ae60;
+  background:#48aec0;
 }
 .navbar a {
   color: #fff;
