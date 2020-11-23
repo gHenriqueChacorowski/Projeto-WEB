@@ -8,6 +8,8 @@
           <option>Nome</option>
           <option>Tipo Cliente</option>
           <option>Endereco</option>
+          <option>Cidade</option>
+          <option>Bairro</option>
         </select>
         <input type="text" name="filtro" id="filtro" v-model="filtro" required />
         <button class="btn btn-primary" type="submit">
@@ -54,7 +56,7 @@ export default {
         }
       },
       tipoFiltro: "",
-      filtro: "",
+      filtro: ""
     };
   },
   created(){
@@ -65,8 +67,10 @@ export default {
       const tipo = element.tipo
       const endereco = element.endereco
       const telefone = element.telefone
+      const cidade = element.cidade
+      const bairro = element.bairro
 
-      this.markers.push( { position: marker, nome, tipo, endereco, telefone });      
+      this.markers.push( { position: marker, nome, tipo, endereco, telefone, cidade, bairro });      
     })
   },
   methods: {
@@ -85,16 +89,24 @@ export default {
           case 'Endereco':
             tipo = element.endereco
           break;
+          case 'Cidade':
+            tipo = element.cidade
+          break;
+          case 'Bairro':
+            tipo = element.bairro
+          break;
         }
-        if(this.filtro == tipo){
+        if(this.filtro.toUpperCase() == tipo.toUpperCase()){
           const marker = element.position
           const nome = element.nome
           const tipo = element.tipo
           const endereco = element.endereco
           const telefone = element.telefone
+          const cidade = element.cidade
+          const bairro = element.bairro
           this.center = marker;
-          this.markers.push( { position: marker, nome, tipo, endereco, telefone });
-        }         
+          this.markers.push( { position: marker, nome, tipo, endereco, telefone, cidade, bairro });
+        }        
       });
     },
     toggleInfoWindow(marker) {
@@ -108,9 +120,9 @@ export default {
           <p class="markermapa">
             <span class="bold">${marker.nome}</span> <br>
             ${marker.endereco} <br>
-            Peabiru - PR <br>
-            87250-000 <br>
-            Brasil
+            ${marker.bairro} <br>
+            ${marker.cidade} <br>
+            ${marker.telefone}
           </p>
         </div>`
       );
