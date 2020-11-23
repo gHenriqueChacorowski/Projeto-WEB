@@ -106,7 +106,7 @@ export default {
     mostrarNoMapa() {
       this.markers = [];
       let geocoder = new google.maps.Geocoder();
-      geocoder.geocode( { 'address': this.cliente.endereco }, (results, status) => {
+      geocoder.geocode( { 'address': this.cliente.endereco + this.cliente.cidade + this.cliente.bairro }, (results, status) => {
       if (status === 'OK') {
         this.center = results[0].geometry.location;
         this.cliente.position = results[0].geometry.location;
