@@ -8,7 +8,7 @@
             <h2>Cadastro Cliente</h2>
           </div>
         </div>
-        <form>
+        <form @submit.prevent="cadastrarCliente">
           <div class="row">
             <div class="form-group col-md-12">
               <gmap-map :center="center" :zoom="16" style="width: 100%; height: 250px" @click="addMarker">
@@ -31,7 +31,7 @@
               <label class="control-label" for="tipo">Tipo Cliente</label>
               <input type="text" class="form-control" id="tipo" name="tipo" v-model="cliente.tipo" required />
             </div>
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-1">       
               <input type="text" class="form-control invisible" name="position" id="position" v-model="cliente.position" required />
             </div>
           </div>
@@ -40,12 +40,9 @@
               <label class="control-label" for="telefone">Telefone</label>
               <input type="text" class="form-control" id="telefone" name="telefone" v-model="cliente.telefone" required />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-8">
               <label class="control-label" for="endereco">Endereço</label>
               <input type="text" class="form-control" name="endereco" id="endereco" v-model="cliente.endereco" required />
-            </div>
-            <div class="form-group col-md-4">
-              <button class="btn btn-primary meio" type="submit" @click="mostrarNoMapa">Mostrar no mapa</button>
             </div>
           </div>
           <div class="row">
@@ -61,7 +58,7 @@
 
           <hr>
 
-          <button v-if="this.cliente.position" class="btn btn-primary" type="submit" @click.prevent="cadastrarCliente">Cadastrar</button>      
+          <button v-if="chamarMostrarNoMapa || this.mostrar" class="btn btn-primary" type="submit">Cadastrar</button>      
           <router-link :to="{ name: 'navbar' }">Voltar</router-link>     
         </form>    
       </fieldset>  
@@ -87,8 +84,19 @@ export default {
         telefone: "",
         cidade: "",
         bairro: ""
-      }
+      },
+      mostrar: false
     };
+  },
+  computed: {
+    chamarMostrarNoMapa(){
+      if(this.cliente.endereco && this.cliente.bairro && this.cliente.cidade && this.cliente.nome && this.cliente.tipo && this.cliente.telefone){
+        return this.mostrarNoMapa();
+      }else{
+        this.markers = [];
+        this.mostrar = false;
+      }
+    }
   },
   methods: {
     cadastrarCliente() {
@@ -108,11 +116,10 @@ export default {
       let geocoder = new google.maps.Geocoder();
       geocoder.geocode( { 'address': this.cliente.endereco + this.cliente.cidade + this.cliente.bairro }, (results, status) => {
       if (status === 'OK') {
+        this.mostrar = true;
         this.center = results[0].geometry.location;
         this.cliente.position = results[0].geometry.location;
         this.markers.push( { position: results[0].geometry.location })
-      }else {
-        alert('Geocode não achou nenhum resultado');
       }
     });
     }
