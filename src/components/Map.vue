@@ -2,7 +2,7 @@
   <div>
     <form action=""></form>
     <div class="navbar">
-      <div class="row">       
+      <div class="row">
         <div class="form-group col-md-5">
           <h4>Mapeamento de Clientes</h4>
         </div>
@@ -80,7 +80,7 @@
         </gmap-info-window>
       </gmap-map>
     </div>
-    
+
     <router-link id="voltar" class="h1 border" to="/">Voltar</router-link>
   </div>
 </template>
@@ -103,7 +103,7 @@ export default {
       tipoFiltro: "",
       tipoFiltro2: "",
       filtro: "",
-      filtro2: ""
+      filtro2: "",
     };
   },
   created() {
@@ -134,7 +134,7 @@ export default {
       this.markers = [];
       let tipo = "";
       let tipo2 = "";
-      if(this.tipoFiltro && this.filtro){
+      if (this.tipoFiltro && this.filtro) {
         clientes.forEach((element) => {
           switch (this.tipoFiltro) {
             case "Tipo Cliente":
@@ -154,7 +154,7 @@ export default {
               break;
           }
           if (this.filtro.toUpperCase() == tipo.toUpperCase()) {
-            if(this.tipoFiltro2 && this.filtro2){
+            if (this.tipoFiltro2 && this.filtro2) {
               switch (this.tipoFiltro2) {
                 case "Tipo Cliente":
                   tipo2 = element.tipo;
@@ -172,7 +172,7 @@ export default {
                   tipo2 = element.bairro;
                   break;
               }
-              if(this.filtro2.toUpperCase() == tipo2.toUpperCase()){
+              if (this.filtro2.toUpperCase() == tipo2.toUpperCase()) {
                 const marker = element.position;
                 const nome = element.nome;
                 const tipo = element.tipo;
@@ -180,7 +180,8 @@ export default {
                 const telefone = element.telefone;
                 const cidade = element.cidade;
                 const bairro = element.bairro;
-    
+                this.center = element.position;
+
                 this.markers.push({
                   position: marker,
                   nome,
@@ -192,24 +193,65 @@ export default {
                 });
               }
             } else {
-                const marker = element.position;
-                const nome = element.nome;
-                const tipo = element.tipo;
-                const endereco = element.endereco;
-                const telefone = element.telefone;
-                const cidade = element.cidade;
-                const bairro = element.bairro;
-    
-                this.markers.push({
-                  position: marker,
-                  nome,
-                  tipo,
-                  endereco,
-                  telefone,
-                  cidade,
-                  bairro,
-                });
+              const marker = element.position;
+              const nome = element.nome;
+              const tipo = element.tipo;
+              const endereco = element.endereco;
+              const telefone = element.telefone;
+              const cidade = element.cidade;
+              const bairro = element.bairro;
+              this.center = element.position;
+
+              this.markers.push({
+                position: marker,
+                nome,
+                tipo,
+                endereco,
+                telefone,
+                cidade,
+                bairro,
+              });
             }
+          }
+        });
+      } else if (this.tipoFiltro2 && this.filtro2) {
+        clientes.forEach((element) => {
+          switch (this.tipoFiltro2) {
+            case "Tipo Cliente":
+              tipo2 = element.tipo;
+              break;
+            case "Nome":
+              tipo2 = element.nome;
+              break;
+            case "Endereco":
+              tipo2 = element.endereco;
+              break;
+            case "Cidade":
+              tipo2 = element.cidade;
+              break;
+            case "Bairro":
+              tipo2 = element.bairro;
+              break;
+          }
+          if (this.filtro2.toUpperCase() == tipo2.toUpperCase()) {
+            const marker = element.position;
+            const nome = element.nome;
+            const tipo = element.tipo;
+            const endereco = element.endereco;
+            const telefone = element.telefone;
+            const cidade = element.cidade;
+            const bairro = element.bairro;
+            this.center = element.position;
+
+            this.markers.push({
+              position: marker,
+              nome,
+              tipo,
+              endereco,
+              telefone,
+              cidade,
+              bairro,
+            });
           }
         });
       }
@@ -258,7 +300,7 @@ export default {
   padding: 10px;
   border-color: chocolate;
 }
-#voltar{
+#voltar {
   margin-left: 70px;
 }
 </style>
