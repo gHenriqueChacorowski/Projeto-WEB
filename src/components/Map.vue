@@ -2,37 +2,61 @@
   <div>
     <form action=""></form>
     <div class="navbar">
-      <div class="form-group col-md-3">
-        <h4>Mapeamento de Clientes</h4>
+      <div class="row">       
+        <div class="form-group col-md-5">
+          <h4>Mapeamento de Clientes</h4>
+        </div>
+        <div class="form-group col-md-3">
+          <select class="form-control" v-model="tipoFiltro">
+            <option disabled value="">Escolha um item para filtrar</option>
+            <option>Nome</option>
+            <option>Tipo Cliente</option>
+            <option>Endereco</option>
+            <option>Cidade</option>
+            <option>Bairro</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <input
+            type="text"
+            name="filtro"
+            class="form-control"
+            id="filtro"
+            v-model="filtro"
+            required
+          />
+        </div>
       </div>
-      <div class="form-group col-md-3">
-        <select class="form-control" v-model="tipoFiltro">
-          <option disabled value="">Escolha um item para filtrar</option>
-          <option>Nome</option>
-          <option>Tipo Cliente</option>
-          <option>Endereco</option>
-          <option>Cidade</option>
-          <option>Bairro</option>
-        </select>
-      </div>
-      <div class="form-group col-md-4">
-        <input
-          type="text"
-          name="filtro"
-          class="form-control"
-          id="filtro"
-          v-model="filtro"
-          required
-        />
-      </div>
-      <div class="form-group col-md-2">
-        <button
-          class="btn btn-primary"
-          v-on:click.prevent="filtrar"
-          type="submit"
-        >
-          Filtrar
-        </button>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <select class="form-control" v-model="tipoFiltro2">
+            <option disabled value="">Escolha um item para filtrar</option>
+            <option>Nome</option>
+            <option>Tipo Cliente</option>
+            <option>Endereco</option>
+            <option>Cidade</option>
+            <option>Bairro</option>
+          </select>
+        </div>
+        <div class="form-group col-md-5">
+          <input
+            type="text"
+            name="filtro"
+            class="form-control"
+            id="filtro"
+            v-model="filtro2"
+            required
+          />
+        </div>
+        <div class="form-group col-md-3">
+          <button
+            class="btn btn-primary"
+            v-on:click.prevent="filtrar"
+            type="submit"
+          >
+            Filtrar
+          </button>
+        </div>
       </div>
     </div>
 
@@ -79,6 +103,7 @@ export default {
       tipoFiltro: "",
       tipoFiltro2: "",
       filtro: "",
+      filtro2: ""
     };
   },
   created() {
@@ -108,44 +133,86 @@ export default {
       let clientes = JSON.parse(localStorage.getItem("clientes"));
       this.markers = [];
       let tipo = "";
-      clientes.forEach((element) => {
-        switch (this.tipoFiltro) {
-          case "Tipo Cliente":
-            tipo = element.tipo;
-            break;
-          case "Nome":
-            tipo = element.nome;
-            break;
-          case "Endereco":
-            tipo = element.endereco;
-            break;
-          case "Cidade":
-            tipo = element.cidade;
-            break;
-          case "Bairro":
-            tipo = element.bairro;
-            break;
-        }
-        if (this.filtro.toUpperCase() == tipo.toUpperCase()) {
-          const marker = element.position;
-          const nome = element.nome;
-          const tipo = element.tipo;
-          const endereco = element.endereco;
-          const telefone = element.telefone;
-          const cidade = element.cidade;
-          const bairro = element.bairro;
-          this.center = marker;
-          this.markers.push({
-            position: marker,
-            nome,
-            tipo,
-            endereco,
-            telefone,
-            cidade,
-            bairro,
-          });
-        }
-      });
+      let tipo2 = "";
+      if(this.tipoFiltro && this.filtro){
+        clientes.forEach((element) => {
+          switch (this.tipoFiltro) {
+            case "Tipo Cliente":
+              tipo = element.tipo;
+              break;
+            case "Nome":
+              tipo = element.nome;
+              break;
+            case "Endereco":
+              tipo = element.endereco;
+              break;
+            case "Cidade":
+              tipo = element.cidade;
+              break;
+            case "Bairro":
+              tipo = element.bairro;
+              break;
+          }
+          if (this.filtro.toUpperCase() == tipo.toUpperCase()) {
+            if(this.tipoFiltro2 && this.filtro2){
+              switch (this.tipoFiltro2) {
+                case "Tipo Cliente":
+                  tipo2 = element.tipo;
+                  break;
+                case "Nome":
+                  tipo2 = element.nome;
+                  break;
+                case "Endereco":
+                  tipo2 = element.endereco;
+                  break;
+                case "Cidade":
+                  tipo2 = element.cidade;
+                  break;
+                case "Bairro":
+                  tipo2 = element.bairro;
+                  break;
+              }
+              if(this.filtro2.toUpperCase() == tipo2.toUpperCase()){
+                const marker = element.position;
+                const nome = element.nome;
+                const tipo = element.tipo;
+                const endereco = element.endereco;
+                const telefone = element.telefone;
+                const cidade = element.cidade;
+                const bairro = element.bairro;
+    
+                this.markers.push({
+                  position: marker,
+                  nome,
+                  tipo,
+                  endereco,
+                  telefone,
+                  cidade,
+                  bairro,
+                });
+              }
+            } else {
+                const marker = element.position;
+                const nome = element.nome;
+                const tipo = element.tipo;
+                const endereco = element.endereco;
+                const telefone = element.telefone;
+                const cidade = element.cidade;
+                const bairro = element.bairro;
+    
+                this.markers.push({
+                  position: marker,
+                  nome,
+                  tipo,
+                  endereco,
+                  telefone,
+                  cidade,
+                  bairro,
+                });
+            }
+          }
+        });
+      }
     },
     toggleInfoWindow(marker) {
       this.windowOpen = true;
